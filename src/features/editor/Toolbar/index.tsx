@@ -9,6 +9,7 @@ import { type FileFormat, formats } from "../../../enums/file.enum";
 import { JSONCrackLogo } from "../../../layout/JsonCrackLogo";
 import useFile from "../../../store/useFile";
 import useModal from "../../../store/useModal";
+import { BeautifyButton } from "./BeautifyButton";
 import { FileMenu } from "./FileMenu";
 import { ToolsMenu } from "./ToolsMenu";
 import { ViewMenu } from "./ViewMenu";
@@ -83,6 +84,7 @@ export const Toolbar = ({ isWidget = false }: ToolbarProps) => {
           <FileMenu />
           <ViewMenu />
           <ToolsMenu />
+          <BeautifyButton />
         </Group>
       )}
       <Group gap="6" justify="right" w="100%" style={{ flexWrap: "nowrap" }}>

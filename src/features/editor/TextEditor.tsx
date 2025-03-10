@@ -3,6 +3,7 @@ import { LoadingOverlay } from "@mantine/core";
 import styled from "styled-components";
 import Editor, { type EditorProps, loader, type OnMount, useMonaco } from "@monaco-editor/react";
 import useConfig from "../../store/useConfig";
+import useEditor from "../../store/useEditor";
 import useFile from "../../store/useFile";
 
 loader.config({
@@ -30,6 +31,7 @@ const TextEditor = () => {
   const getHasChanges = useFile(state => state.getHasChanges);
   const theme = useConfig(state => (state.darkmodeEnabled ? "vs-dark" : "light"));
   const fileType = useFile(state => state.format);
+  const setEditorRef = useEditor(state => state.setEditorRef);
 
   React.useEffect(() => {
     monaco?.languages.json.jsonDefaults.setDiagnosticsOptions({
@@ -66,11 +68,15 @@ const TextEditor = () => {
     };
   }, [getHasChanges]);
 
-  const handleMount: OnMount = useCallback(editor => {
-    editor.onDidPaste(() => {
-      editor.getAction("editor.action.formatDocument")?.run();
-    });
-  }, []);
+  const handleMount: OnMount = useCallback(
+    editor => {
+      setEditorRef(editor);
+      editor.onDidPaste(() => {
+        editor.getAction("editor.action.formatDocument")?.run();
+      });
+    },
+    [setEditorRef]
+  );
 
   return (
     <StyledEditorWrapper>
